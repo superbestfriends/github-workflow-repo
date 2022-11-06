@@ -1,0 +1,12 @@
+---
+version: "3"
+
+tasks:
+  init:
+    desc: Initialise pre-commit hooks
+    cmds:
+      - pre-commit install && pre-commit install-hooks
+  run:
+    desc: Run pre-commit
+    cmds:
+      - pre-commit run --all-files
