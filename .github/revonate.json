@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "rollbackPrs": true,
+  "stabilityDays": 3,
+  "labels": ["renovate"],
+  "pre-commit": {
+    "enabled": true,
+    "fileMatch": ["^modules/github-repo/templates/pre-commit-config.yaml\\.tftpl"]
+  },
+  "github-actions": {
+    "fileMatch": [
+      "^(workflow-templates|{{cookiecutter.name}}?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
+      "(^|\/)action\.ya?ml$"
+    ]
+  }
+}
