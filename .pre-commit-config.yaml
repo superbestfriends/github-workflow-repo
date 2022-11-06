@@ -1,0 +1,54 @@
+---
+fail_fast: true
+default_language_version:
+  node: 16.15.1
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.3.1
+    hooks:
+      - id: remove-crlf
+      - id: remove-tabs
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.31.1
+    hooks:
+      - id: markdownlint-fix
+        args: ["-c", ".github/linters/.markdownlint.yaml", "*.md"]
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.26.3
+    hooks:
+      - id: yamllint
+        args: ["-c", ".github/linters/.yamllint.yaml", "."]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v2.7.1"
+    hooks:
+      - id: prettier
+        types_or: [yaml, markdown]
+        args: ["--config", ".github/linters/.prettierrc.yaml"]
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "v8.26.0"
+    hooks:
+      - id: eslint
+        additional_dependencies:
+          - eslint-plugin-jsonc@2.5.0
+          - jsonc-eslint-parser@2.1.0
+          - "@typescript-eslint/parser@5.42.0"
+          - "@typescript-eslint/eslint-plugin@5.42.0"
+        types: [file]
+        files: '(\.js|\.ts|\.json(\.tftpl)?)'
+        args: ["--config", ".github/linters/.eslintrc.yaml"]
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.10.0
+    hooks:
+      - hadolint
