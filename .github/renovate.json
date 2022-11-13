@@ -11,7 +11,7 @@
   },
   "github-actions": {
     "fileMatch": [
-      "^(workflow-templates|{{cookiecutter.name}}?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
+      "^(workflows|actions|{{cookiecutter.name}}?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
       "(^|\/)action\.ya?ml$"
     ]
   }
