@@ -4,7 +4,7 @@ template: |
 
   $CHANGES
 no-changes-template: "_No changes yet._"
-name-template: "v$RESOLVED_VERSION"
+name-template: "$RESOLVED_VERSION"
 tag-template: "v$RESOLVED_VERSION"
 tag-prefix: "v"
 categories:
@@ -16,8 +16,6 @@ categories:
       - "feature"
   - title: "🐛 Bug Fixes"
     labels:
-      - "fix"
-      - "bugfix"
       - "bug"
   - title: "🧰 Maintenance"
     labels:
