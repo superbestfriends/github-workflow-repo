@@ -4,9 +4,6 @@ name: Pull Request
 "on":
   workflow_call:
     inputs:
-      source-branch:
-        required: true
-        type: string
       docker-build:
         type: boolean
         default: true
@@ -15,24 +12,31 @@ name: Pull Request
         required: true
 
 jobs:
-  check-pr-source-branch:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/check_pr_source_branch.yaml@v1
-    secrets: inherit
-    with:
-      source-branch: ${{ github.head_ref }}
+  draft-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version-name: ${{ steps.release.outputs.name }};
+      version-tag: ${{ steps.release.outputs.tag_name }};
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: release-drafter/release-drafter@v5
+        id: release
+        with:
+          config-name: release-drafter.yaml
+          disable-autolabeler: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.github-token }}
 
   lint:
-    needs: check-pr-source-branch
+    needs: draft-release
     uses: superbestfriends/github-workflow-repo/workflows/generic/lint.yaml@v1
     secrets: inherit
 
-  label-pr:
-    needs: lint
-    uses: superbestfriends/github-workflow-repo/workflows/generic/label_pr.yaml@v1
-    secrets: inherit
-
   test:
-    needs: label-pr
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
@@ -44,16 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       name: ${{ steps.get-artifact-name.outputs.stdout }}
-      version: ${{ steps.get-version.outputs.stdout }}
     steps:
-      - uses: actions/checkout@v3
-
       - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
-
-      - name: Get Project Version
-        id: get-version
-        run: mvn --batch-mode help:evaluate -Dexpression=project.version
-        shell: bash
 
       - name: Get Artifact Name
         id: get-artifact-name
@@ -78,6 +74,6 @@ jobs:
     uses: superbestfriends/github-workflow-repo/workflows/generic/publish-docker.yaml@v1
     with:
       image-name: ${{ needs.package.outputs.name }}
-      image-version: ${{ needs.package.outputs.version }}
+      image-version: ${{ needs.draft-release.outputs.version }}-prerelease
       cache-path: target
       cache-key: ${{ github.run_id }}
