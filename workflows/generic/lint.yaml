@@ -1,0 +1,28 @@
+---
+name: Lint
+
+"on":
+  workflow_call:
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    needs: check-pr-source-branch
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: lint
+        id: lint
+        uses: github/super-linter/slim@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.github-token }}
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_TERRAFORM_TERRASCAN: false
+          IGNORE_GENERATED_FILES: true
+          IGNORE_GITIGNORED_FILES: true
+          YAML_CONFIG_FILE: .yamllint.yaml

@@ -1,0 +1,5 @@
+---
+version: "3"
+
+includes:
+  pre-commit: .github/taskfiles/pre-commit.yaml

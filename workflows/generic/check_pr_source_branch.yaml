@@ -1,0 +1,34 @@
+---
+name: Check PR Source Branch
+
+"on":
+  workflow_call:
+    inputs:
+      source-branch:
+        required: true
+        type: string
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  check-pr-source-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Request Source Branch
+        id: check-pr-source-branch
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{ secrets.github-token }}
+          script: |
+            const sourceBranch = ${{ inputs.source-branch }}
+            if (!sourceBranch.startsWith("hotfix/") && !sourceBranch.startsWith("feature/")) {
+              core.setFailed(`Source branch name must start with "hotfix/" or "feature/", but it was "${sourceBranch}"`);
+            }
+
+      - name: Fail on Invalid Source Branch
+        id: fail-on-invalid-source-branch
+        if: failure()
+        run: |
+          echo "Error: Source branch name must start with 'feature/' or 'hotfix/'";
+          exit 1;
