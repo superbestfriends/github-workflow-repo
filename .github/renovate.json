@@ -11,22 +11,8 @@
   },
   "github-actions": {
     "fileMatch": [
-      "^(workflows/**|actions|{{cookiecutter.name}}\/.github/workflows?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
+      "^(workflows|actions|{{cookiecutter.name}}?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
       "(^|\/)action\.ya?ml$"
     ]
-  },
-  "hostRules": [
-    {
-      "matchHost": "https://maven.pkg.github.com/superbestfriends/",
-      "encrypted": {
-        "token": "wcFMA/xDdHCJBTolARAAjLtLlkDNurLTNjKcCcRiQRlIsYnu/SxVusS2DM8atAvFOjONcTsMuwZV/PMcSOFgVaivyx8VGB2T3kWfjpZRT6FvDZX+ids/8W/8/zKR+mqGxdSuIGtHyvU9Qe+BxFih/TTEnfuePuXNAnFLSTN7tDdX33vzrTELDKJ/YiI0/CGeRad5SWLDqw1FmNRZoOvwH6JWTdJMCsLQ8risysFwwmVUP+OiGRLCuKkwgvo1oabk0hthKtidMLV7jz3cUX4+7P4YUCX6fsjyCpfm5B71VjKc+nioKdy7vxbKBsxnzUKCKtFVs+txDgtIeyM2u8o/bqc725u25+g4e+hfbNHTM34SeFieL6oQDtjb3h3xRgwvy3LDniCiF4JMjoeoziXnJt2/y0QK5F2jrwATEnLAOxX0wLhcfHJy4Ss5fsZ6SR8Pus6rOWahwGm1rnyJ+N8r+ahJjhkuDrHkY8j1wpCNP0lhOUrpKHAJk51MYuKk6lTyoZw5WANMT2FqY7QGStB2OfPZAF7xSOgoF109KTRdeuv0tshWFrg+rUYZPz9naFMrT5svuXLINKxV8pVStKx4BBcQ5BV7ZHo3KbDmTttYiYO6Ea4+0oDit10p1aRVUajekeMK6k9MZUWX1hOtADYUmZKGaLKTYaLvi2DOULFLkqfwn7DsRUxUXjPjpI6aZhvSfwFjtvgCVDoiELs5C1LErfo+V8+gDoy8D1s/wf/kDE/S00xuBk8d4nE8Uo32862/687Lzf2xLLScPj4M4S1wNn4VLnravY+LbpyH/DIPBG/LXHOj+NZKPFVkrNtDA48Q8r1eCFGWDkYcaBTrFO8altxBGOmnrmxoFSqVdJ33KwU"
-      }
-    },
-    {
-      "matchHost": "https://ghcr.io/superbestfriends",
-      "encrypted": {
-        "token": "wcFMA/xDdHCJBTolARAAjLtLlkDNurLTNjKcCcRiQRlIsYnu/SxVusS2DM8atAvFOjONcTsMuwZV/PMcSOFgVaivyx8VGB2T3kWfjpZRT6FvDZX+ids/8W/8/zKR+mqGxdSuIGtHyvU9Qe+BxFih/TTEnfuePuXNAnFLSTN7tDdX33vzrTELDKJ/YiI0/CGeRad5SWLDqw1FmNRZoOvwH6JWTdJMCsLQ8risysFwwmVUP+OiGRLCuKkwgvo1oabk0hthKtidMLV7jz3cUX4+7P4YUCX6fsjyCpfm5B71VjKc+nioKdy7vxbKBsxnzUKCKtFVs+txDgtIeyM2u8o/bqc725u25+g4e+hfbNHTM34SeFieL6oQDtjb3h3xRgwvy3LDniCiF4JMjoeoziXnJt2/y0QK5F2jrwATEnLAOxX0wLhcfHJy4Ss5fsZ6SR8Pus6rOWahwGm1rnyJ+N8r+ahJjhkuDrHkY8j1wpCNP0lhOUrpKHAJk51MYuKk6lTyoZw5WANMT2FqY7QGStB2OfPZAF7xSOgoF109KTRdeuv0tshWFrg+rUYZPz9naFMrT5svuXLINKxV8pVStKx4BBcQ5BV7ZHo3KbDmTttYiYO6Ea4+0oDit10p1aRVUajekeMK6k9MZUWX1hOtADYUmZKGaLKTYaLvi2DOULFLkqfwn7DsRUxUXjPjpI6aZhvSfwFjtvgCVDoiELs5C1LErfo+V8+gDoy8D1s/wf/kDE/S00xuBk8d4nE8Uo32862/687Lzf2xLLScPj4M4S1wNn4VLnravY+LbpyH/DIPBG/LXHOj+NZKPFVkrNtDA48Q8r1eCFGWDkYcaBTrFO8altxBGOmnrmxoFSqVdJ33KwU"
-      }
-    }
-  ]
+  }
 }
