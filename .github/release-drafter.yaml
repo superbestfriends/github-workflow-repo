@@ -1,0 +1,50 @@
+---
+template: |
+  ## What’s Changed
+
+  $CHANGES
+no-changes-template: "_No changes yet._"
+name-template: "$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+tag-prefix: "v"
+categories:
+  - title: 🚫 Breaking Changes
+    labels:
+      - breaking
+  - title: "🚀 Features"
+    labels:
+      - "feature"
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "bug"
+  - title: "🧰 Maintenance"
+    labels:
+      - "chore"
+      - "renovate"
+autolabeler:
+  - label: breaking
+    title:
+      - "/(?<!non[- ]?)breaking/i"
+  - label: "bug"
+    branch:
+      - '/hotfix\/.+/'
+    title:
+      - "/fix/i"
+  - label: "feature"
+    branch:
+      - '/feature\/.+/'
+  - label: "chore"
+    files:
+      - "*.md"
+version-resolver:
+  major:
+    labels:
+      - "breaking"
+  minor:
+    labels:
+      - "feature"
+  patch:
+    labels:
+      - "chore"
+      - "renovate"
+  default: patch
