@@ -21,8 +21,8 @@ jobs:
         with:
           github-token: ${{ secrets.github-token }}
           script: |
-            const sourceBranch = "{{ inputs.source-branch }}"
-            if (!sourceBranch.toLowerCase().startsWith("hotfix/") && !sourceBranch.toLowerCase().startsWith("feature/")) {
+            const sourceBranch = '${{ inputs.source-branch }}';
+            if (!sourceBranch.startsWith("hotfix/") && !sourceBranch.startsWith("feature/")) {
               core.setFailed(`Source branch name must start with "hotfix/" or "feature/", but it was "${sourceBranch}"`);
             }
 
