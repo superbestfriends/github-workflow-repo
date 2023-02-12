@@ -13,7 +13,7 @@ name: Pull Request - Generic
 
 jobs:
   check-pr-source-branch:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/check_pr_source_branch.yaml@main
+    uses: ./.github/workflows/check_pr_source_branch.yaml
     secrets: inherit
     with:
       source-branch: ${{ inputs.source-branch }}
@@ -21,11 +21,11 @@ jobs:
   lint:
     needs: check-pr-source-branch
     if: needs.check-pr-source-branch.result == 'success'
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/lint.yaml@main
+    uses: ./.github/workflows/lint.yaml
     secrets: inherit
 
   label-pr:
     needs: lint
     if: needs.lint.result == 'success'
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/label_pr.yaml@main
+    uses: ./.github/workflows/label_pr.yaml
     secrets: inherit
