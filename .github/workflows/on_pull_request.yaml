@@ -12,4 +12,4 @@ name: Pull Request
 
 jobs:
   on-pull-request:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/generic/on_pull_request.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/on_pull_request_generic.yaml@v1
