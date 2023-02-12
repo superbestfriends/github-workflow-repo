@@ -8,4 +8,4 @@ name: Release
 
 jobs:
   on-release:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/on_release.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/generic/on_release.yaml@v1

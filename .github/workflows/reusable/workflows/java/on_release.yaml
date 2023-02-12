@@ -16,13 +16,13 @@ name: On Release - Java
 
 jobs:
   generic:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/on_release.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_release.yaml@v1
     secrets: inherit
 
   build_and_publish:
     needs: generic
     if: needs.generic.result == 'success'
-    uses: superbestfriends/github-workflow-repo/workflows/java/build_and_publish.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@v1
     secrets: inherit
     with:
       version: ${{ inputs.release-name }}

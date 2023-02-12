@@ -10,7 +10,6 @@ name: Lint
 jobs:
   lint:
     runs-on: ubuntu-latest
-    needs: check-pr-source-branch
     steps:
       - uses: actions/checkout@v3
         with:

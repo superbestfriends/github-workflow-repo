@@ -11,7 +11,7 @@ name: Build and Publish - Java
         required: false
         type: string
       docker-build:
-        required: true
+        required: false
         default: false
         type: boolean
       run-tests:
@@ -24,10 +24,10 @@ name: Build and Publish - Java
 
 jobs:
   test:
-    if: github.events.inputs.run-tests
+    if: inputs.run-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@v1
         with:
           version-name: ${{ inputs.version }}
 
@@ -40,7 +40,7 @@ jobs:
     outputs:
       name: ${{ steps.get-artifact-name.outputs.stdout }}
     steps:
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@v1
         with:
           version-name: ${{ inputs.version }}
 
@@ -56,7 +56,7 @@ jobs:
     if: needs.package.result == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@v1
         with:
           version-name: ${{ inputs.version }}
 
@@ -65,9 +65,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.github-token }}
 
   publish-docker:
-    if: needs.package.result == 'success' && github.events.inputs.docker-build
+    if: needs.package.result == 'success' && inputs.docker-build
     needs: [package]
-    uses: superbestfriends/github-workflow-repo/workflows/utils/publish-docker.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/utils/workflows/publish-docker.yaml@v1
     secrets: inherit
     with:
       image-name: ${{ needs.package.outputs.name }}
@@ -76,12 +76,13 @@ jobs:
       cache-key: ${{ github.run_id }}
 
   bump-version:
-    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped') && github.events.inputs.next-verson != ''
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped') && inputs.next-version != ''
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        ref: "main"
+        with:
+          ref: main
 
       - uses: actions/setup-java@v3
         with:

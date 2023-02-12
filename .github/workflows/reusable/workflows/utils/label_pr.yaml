@@ -9,7 +9,7 @@ name: Label PR
 
 jobs:
   label-pr:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:

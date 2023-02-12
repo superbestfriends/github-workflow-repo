@@ -16,17 +16,18 @@ name: Pull Request - Java
 
 jobs:
   generic:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/on_pull_request.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_pull_request.yaml@v1
     secrets: inherit
     with:
       source-branch: ${{ inputs.source-branch }}
 
-  derive-versions:
+  derive-version:
+    name: Derive Version
     needs: generic
     if: needs.generic.result == 'success'
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.derive-version.outputs.stdout }}
+      version: ${{ steps.get-maven-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -38,13 +39,14 @@ jobs:
           java-version: 17
           cache: "maven"
 
-      - name: derive-version
-        run: mvn --batch-mode help:evaluate -Dexpression=project.version
+      - name: Get Maven Version
+        id: get-maven-version
+        run: echo version="$(mvn --batch-mode help:evaluate -Dexpression=project.version)" >> "$GITHUB_OUTPUT"
 
   build_and_publish:
     needs: derive-version
     if: needs.derive-version.result == 'success'
-    uses: superbestfriends/github-workflow-repo/workflows/java/build_and_publish.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@v1
     secrets: inherit
     with:
       version: ${{ needs.derive-version.outputs.version }}
