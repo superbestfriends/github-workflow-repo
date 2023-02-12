@@ -8,4 +8,6 @@ name: Push Main
 
 jobs:
   on-push-main:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/on_push_main_generic.yaml@main
+    uses: ./.github/workflows/on_push_main_generic.yaml
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}

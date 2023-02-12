@@ -8,4 +8,6 @@ name: Release
 
 jobs:
   on-release:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/on_release_generic.yaml@main
+    uses: ./.github/workflows/on_release_generic.yaml
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
