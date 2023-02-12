@@ -13,13 +13,13 @@ name: Push Main - Java
 
 jobs:
   generic:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_push_main.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_push_main.yaml@main
     secrets: inherit
 
   build_and_publish:
     needs: generic
     if: needs.generic.result == 'success'
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@main
     secrets: inherit
     with:
       version: ${{ needs.generic.outputs.release-candidate-version }}

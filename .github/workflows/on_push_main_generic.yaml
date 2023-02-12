@@ -51,5 +51,5 @@ jobs:
   lint:
     needs: draft-release
     if: needs.draft-release.result == 'success'
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/lint.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/lint.yaml@main
     secrets: inherit
