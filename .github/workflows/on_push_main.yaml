@@ -1,0 +1,11 @@
+---
+name: Push Main
+
+"on":
+  push:
+    branches:
+      - main
+
+jobs:
+  on-push-main:
+    uses: superbestfriends/github-workflow-repo/workflows/generic/on_push_main.yaml@v1

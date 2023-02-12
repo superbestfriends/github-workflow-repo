@@ -1,0 +1,22 @@
+---
+name: "Initialize Terraform"
+description: "Initializes the Terraform environment"
+
+inputs:
+  cli_token:
+    description: "The token that we will use to initialize the Terraform CLI"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Terraform Setup
+      id: terraform_setup
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ inputs.cli_token }}
+
+    - name: Terraform Init
+      id: terraform_init
+      shell: bash
+      run: terraform init
