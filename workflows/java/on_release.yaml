@@ -1,5 +1,5 @@
 ---
-name: Push Main - Java
+name: On Release - Java
 
 "on":
   workflow_call:
@@ -7,13 +7,16 @@ name: Push Main - Java
       docker-build:
         type: boolean
         default: true
+      release-name:
+        type: string
+        required: true
     secrets:
       github-token:
         required: true
 
 jobs:
   generic:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/on_push_main.yaml@v1
+    uses: superbestfriends/github-workflow-repo/workflows/generic/on_release.yaml@v1
     secrets: inherit
 
   build_and_publish:
@@ -22,6 +25,7 @@ jobs:
     uses: superbestfriends/github-workflow-repo/workflows/java/build_and_publish.yaml@v1
     secrets: inherit
     with:
-      version: ${{ needs.generic.outputs.release-candidate-version }}
-      next-version: ${{ needs.generic.outputs.version }}-SNAPSHOT
+      version: ${{ inputs.release-name }}
+      next-version: ${{ needs.generic.outputs.next-version }}-SNAPSHOT
       docker-build: ${{ inputs.docker-build }}
+      run-tests: false

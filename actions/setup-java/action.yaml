@@ -1,11 +1,17 @@
 ---
 name: Setup Java
 description: "Initializes the Java Build Environment"
+inputs:
+  version-name:
+    required: true
+    description: "The version to pre bump the Maven Pom version to"
 
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
 
     - uses: actions/setup-java@v3
       with:
@@ -17,3 +23,6 @@ runs:
       with:
         path: target
         key: ${{ github.run_id }}
+
+    - shell: bash
+      run: mvn versions:set -DnewVersion=${{ inputs.version-name }};

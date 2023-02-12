@@ -1,0 +1,98 @@
+---
+name: Build and Publish - Java
+
+"on":
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      next-version:
+        required: false
+        type: string
+      docker-build:
+        required: true
+        default: false
+        type: boolean
+      run-tests:
+        required: false
+        default: true
+        type: boolean
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  test:
+    if: github.events.inputs.run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+        with:
+          version-name: ${{ inputs.version }}
+
+      - run: mvn --batch-mode test
+
+  package:
+    needs: test
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.get-artifact-name.outputs.stdout }}
+    steps:
+      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+        with:
+          version-name: ${{ inputs.version }}
+
+      - name: Get Artifact Name
+        id: get-artifact-name
+        run: mvn --batch-mode help:evaluate -Dexpression=project.artifactId
+        shell: bash
+
+      - run: mvn --batch-mode package -DskipTests
+
+  publish:
+    needs: [package]
+    if: needs.package.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+        with:
+          version-name: ${{ inputs.version }}
+
+      - run: mvn --batch-mode deploy -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.github-token }}
+
+  publish-docker:
+    if: needs.package.result == 'success' && github.events.inputs.docker-build
+    needs: [package]
+    uses: superbestfriends/github-workflow-repo/workflows/utils/publish-docker.yaml@v1
+    secrets: inherit
+    with:
+      image-name: ${{ needs.package.outputs.name }}
+      image-version: ${{ inputs.version }}
+      cache-path: target
+      cache-key: ${{ github.run_id }}
+
+  bump-version:
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped') && github.events.inputs.next-verson != ''
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        ref: "main"
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "oracle"
+          java-version: 17
+          cache: "maven"
+
+      - name: Bump Maven Version
+        run: |
+          mvn versions:set -DnewVersion=${{ inputs.next-version }}
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'github-actions@users.noreply.github.com'
+          git commit -am "[skip ci] Bump Version"
+          git push

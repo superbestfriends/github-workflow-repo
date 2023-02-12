@@ -1,5 +1,5 @@
 ---
-name: Pull Request
+name: Pull Request - Java
 
 "on":
   workflow_call:
@@ -15,69 +15,37 @@ name: Pull Request
         required: true
 
 jobs:
-  check-pr-source-branch:
-    uses: superbestfriends/github-workflow-repo/workflows/generic/check_pr_source_branch.yaml@v1
+  generic:
+    uses: superbestfriends/github-workflow-repo/workflows/generic/on_pull_request.yaml@v1
     secrets: inherit
     with:
-      source-branch: ${{ github.head_ref }}
+      source-branch: ${{ inputs.source-branch }}
 
-  lint:
-    needs: check-pr-source-branch
-    uses: superbestfriends/github-workflow-repo/workflows/generic/lint.yaml@v1
-    secrets: inherit
-
-  label-pr:
-    needs: lint
-    uses: superbestfriends/github-workflow-repo/workflows/generic/label_pr.yaml@v1
-    secrets: inherit
-
-  test:
-    needs: label-pr
-    runs-on: ubuntu-latest
-    steps:
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
-
-      - run: mvn --batch-mode test
-
-  package:
-    needs: test
+  derive-versions:
+    needs: generic
+    if: needs.generic.result == 'success'
     runs-on: ubuntu-latest
     outputs:
-      name: ${{ steps.get-artifact-name.outputs.stdout }}
-      version: ${{ steps.get-version.outputs.stdout }}
+      version: ${{ steps.derive-version.outputs.stdout }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "oracle"
+          java-version: 17
+          cache: "maven"
 
-      - name: Get Project Version
-        id: get-version
+      - name: derive-version
         run: mvn --batch-mode help:evaluate -Dexpression=project.version
-        shell: bash
 
-      - name: Get Artifact Name
-        id: get-artifact-name
-        run: mvn --batch-mode help:evaluate -Dexpression=project.artifactId
-        shell: bash
-
-      - run: mvn --batch-mode package -DskipTests
-
-  publish:
-    needs: package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: superbestfriends/github-workflow-repo/actions/setup-java@v1
-
-      - run: mvn --batch-mode deploy -DskipTests
-        env:
-          GITHUB_TOKEN: ${{ secrets.github-token }}
-
-  publish-docker:
-    if: ${{ inputs.docker-build }}
-    needs: package
-    uses: superbestfriends/github-workflow-repo/workflows/generic/publish-docker.yaml@v1
+  build_and_publish:
+    needs: derive-version
+    if: needs.derive-version.result == 'success'
+    uses: superbestfriends/github-workflow-repo/workflows/java/build_and_publish.yaml@v1
+    secrets: inherit
     with:
-      image-name: ${{ needs.package.outputs.name }}
-      image-version: ${{ needs.package.outputs.version }}
-      cache-path: target
-      cache-key: ${{ github.run_id }}
+      version: ${{ needs.derive-version.outputs.version }}
+      docker-build: ${{ inputs.docker-build }}
