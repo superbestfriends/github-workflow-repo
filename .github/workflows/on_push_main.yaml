@@ -8,4 +8,4 @@ name: Push Main
 
 jobs:
   on-push-main:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/generic/on_push_main.yaml@v1
+    uses: superbestfriends/github-workflow-repo/.github/workflows/on_push_main_generic.yaml@v1
