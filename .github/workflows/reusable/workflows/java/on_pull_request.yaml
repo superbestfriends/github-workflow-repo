@@ -1,0 +1,53 @@
+---
+name: Pull Request - Java
+
+"on":
+  workflow_call:
+    inputs:
+      source-branch:
+        required: true
+        type: string
+      docker-build:
+        type: boolean
+        default: true
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  generic:
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_pull_request.yaml@v1
+    secrets: inherit
+    with:
+      source-branch: ${{ inputs.source-branch }}
+
+  derive-version:
+    name: Derive Version
+    needs: generic
+    if: needs.generic.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-maven-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "oracle"
+          java-version: 17
+          cache: "maven"
+
+      - name: Get Maven Version
+        id: get-maven-version
+        run: echo version="$(mvn --batch-mode help:evaluate -Dexpression=project.version)" >> "$GITHUB_OUTPUT"
+
+  build_and_publish:
+    needs: derive-version
+    if: needs.derive-version.result == 'success'
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@v1
+    secrets: inherit
+    with:
+      version: ${{ needs.derive-version.outputs.version }}
+      docker-build: ${{ inputs.docker-build }}

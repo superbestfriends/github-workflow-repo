@@ -1,0 +1,11 @@
+---
+name: Release
+
+"on":
+  release:
+    types:
+      - released
+
+jobs:
+  on-release:
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/generic/on_release.yaml@v1

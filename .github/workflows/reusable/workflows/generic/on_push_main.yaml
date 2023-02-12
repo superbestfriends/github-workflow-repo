@@ -1,0 +1,55 @@
+---
+name: Push Main - Generic
+
+"on":
+  workflow_call:
+    outputs:
+      version:
+        description: The version of the pending release
+        value: ${{ jobs.draft-release.outputs.version }}
+      release-candidate-version:
+        description: The version of this release candidate
+        value: ${{jobs.draft-release.outputs.version}}-RC${{ jobs.derive-release-candidate-version.outputs.version }}
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  draft-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release.outputs.name }};
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: release-drafter/release-drafter@v5
+        id: release
+        with:
+          config-name: release-drafter.yaml
+          disable-autolabeler: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.github-token }}
+
+  derive-release-candidate-version:
+    needs: draft-release
+    if: needs.draft-release.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.derive-release-candidate-version.outputs.stdout }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # takes the number of commits on main since the last tag
+      - name: Derive Release Candidate Version
+        id: derive-release-candidate-version
+        run: git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count
+
+  lint:
+    needs: draft-release
+    if: needs.draft-release.result == 'success'
+    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/utils/lint.yaml@v1
+    secrets: inherit
