@@ -13,7 +13,7 @@ name: On Release - Generic
 
 jobs:
   lint:
-    uses: ./.github/workflows/reusable/workflows/utils/lint.yaml
+    uses: ./.github/workflows/lint.yaml
     secrets: inherit
 
   release:

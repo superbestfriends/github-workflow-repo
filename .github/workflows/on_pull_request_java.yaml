@@ -16,7 +16,7 @@ name: Pull Request - Java
 
 jobs:
   generic:
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/generic/on_pull_request.yaml@main
+    uses: ./.github/workflows/on_pull_request_generic.yaml
     secrets: inherit
     with:
       source-branch: ${{ inputs.source-branch }}
@@ -46,7 +46,7 @@ jobs:
   build_and_publish:
     needs: derive-version
     if: needs.derive-version.result == 'success'
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/workflows/java/build_and_publish.yaml@main
+    uses: ./.github/workflows/build_and_publish_java.yaml
     secrets: inherit
     with:
       version: ${{ needs.derive-version.outputs.version }}

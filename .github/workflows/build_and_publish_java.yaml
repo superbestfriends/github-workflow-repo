@@ -27,7 +27,7 @@ jobs:
     if: inputs.run-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@main
+      - uses: ./.github/actions/setup-java
         with:
           version-name: ${{ inputs.version }}
 
@@ -40,7 +40,7 @@ jobs:
     outputs:
       name: ${{ steps.get-artifact-name.outputs.stdout }}
     steps:
-      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@main
+      - uses: ./.github/actions/setup-java
         with:
           version-name: ${{ inputs.version }}
 
@@ -56,7 +56,7 @@ jobs:
     if: needs.package.result == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: superbestfriends/github-workflow-repo/.github/actions/setup-java@main
+      - uses: ./.github/actions/setup-java
         with:
           version-name: ${{ inputs.version }}
 
@@ -67,7 +67,7 @@ jobs:
   publish-docker:
     if: needs.package.result == 'success' && inputs.docker-build
     needs: [package]
-    uses: superbestfriends/github-workflow-repo/.github/workflows/reusable/utils/workflows/publish-docker.yaml@main
+    uses: ./.github/workflows/publish_docker.yaml
     secrets: inherit
     with:
       image-name: ${{ needs.package.outputs.name }}
