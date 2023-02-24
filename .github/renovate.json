@@ -14,5 +14,8 @@
       "^(workflows|actions|{{cookiecutter.name}}?|\.github\/workflows|modules\/github-repo\/template\/workflows)\/[^/]+\.ya?ml$",
       "(^|\/)action\.ya?ml$"
     ]
+  },
+  "kubernetes": {
+    "fileMatch": ["k8s/.+\\.yaml$"]
   }
 }
