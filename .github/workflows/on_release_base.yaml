@@ -1,0 +1,36 @@
+---
+name: On Release - Base
+
+"on":
+  workflow_call:
+    outputs:
+      next-version:
+        description: The next version after this release
+        value: ${{ jobs.release.outputs.next-version }}
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yaml
+    secrets: inherit
+
+  release:
+    needs: lint
+    if: needs.lint.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      next-version: ${{ steps.release.outputs.name }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Release
+        id: release
+        uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter.yaml
+          publish: false
+          disable-autolabeler: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.github-token }}

@@ -12,16 +12,16 @@ name: Push Main - Java
         required: true
 
 jobs:
-  generic:
-    uses: ./.github/workflows/on_push_main_generic.yaml
+  base:
+    uses: ./.github/workflows/on_push_main_base.yaml
     secrets: inherit
 
-  build_and_publish:
-    needs: generic
-    if: needs.generic.result == 'success'
+  build-and-publish:
+    needs: base
+    if: needs.base.result == 'success'
     uses: ./.github/workflows/build_and_publish_java.yaml
     secrets: inherit
     with:
-      version: ${{ needs.generic.outputs.release-candidate-version }}
-      next-version: ${{ needs.generic.outputs.version }}-SNAPSHOT
+      version: ${{ needs.base.outputs.release-candidate-version }}
+      next-version: ${{ needs.base.outputs.version }}-SNAPSHOT
       docker-build: ${{ inputs.docker-build }}

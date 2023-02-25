@@ -1,0 +1,31 @@
+---
+name: Pull Request - Base
+
+"on":
+  workflow_call:
+    inputs:
+      source-branch:
+        required: true
+        type: string
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  check-pr-source-branch:
+    uses: ./.github/workflows/check_pr_source_branch.yaml
+    secrets: inherit
+    with:
+      source-branch: ${{ inputs.source-branch }}
+
+  lint:
+    needs: check-pr-source-branch
+    if: needs.check-pr-source-branch.result == 'success'
+    uses: ./.github/workflows/lint.yaml
+    secrets: inherit
+
+  label-pr:
+    needs: lint
+    if: needs.lint.result == 'success'
+    uses: ./.github/workflows/label_pr.yaml
+    secrets: inherit

@@ -7,25 +7,46 @@ name: Pull Request - Generic
       source-branch:
         required: true
         type: string
+      docker-build:
+        required: false
+        type: boolean
+        default: false
+      docker-image-name:
+        required: false
+        type: string
     secrets:
       github-token:
         required: true
 
 jobs:
-  check-pr-source-branch:
-    uses: ./.github/workflows/check_pr_source_branch.yaml
+  base:
+    uses: ./.github/workflows/on_pull_request_base.yaml
     secrets: inherit
     with:
       source-branch: ${{ inputs.source-branch }}
 
-  lint:
-    needs: check-pr-source-branch
-    if: needs.check-pr-source-branch.result == 'success'
-    uses: ./.github/workflows/lint.yaml
-    secrets: inherit
+  derive-version:
+    name: Derive Version
+    needs: base
+    if: needs.base.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
-  label-pr:
-    needs: lint
-    if: needs.lint.result == 'success'
-    uses: ./.github/workflows/label_pr.yaml
+      # TODO: use versions.txt or similar to get the latest actual version on main
+      - name: Get Version
+        id: get-version
+        run: echo version="$(git tag -l | tail -n 1)-$(date +'%Y-%m-%dT%H%M%S')" >> "$GITHUB_OUTPUT"
+
+  publish-docker:
+    needs: derive-version
+    if: needs.derive-version.result == 'success' && inputs.docker-build && inputs.docker-image-name != ''
+    uses: ./.github/workflows/publish_docker.yaml
     secrets: inherit
+    with:
+      image-version: ${{ needs.derive-version.outputs.version }}
+      image-name: ${{ inputs.docker-image-name }}

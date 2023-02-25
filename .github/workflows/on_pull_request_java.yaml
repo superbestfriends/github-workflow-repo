@@ -15,16 +15,16 @@ name: Pull Request - Java
         required: true
 
 jobs:
-  generic:
-    uses: ./.github/workflows/on_pull_request_generic.yaml
+  base:
+    uses: ./.github/workflows/on_pull_request_base.yaml
     secrets: inherit
     with:
       source-branch: ${{ inputs.source-branch }}
 
   derive-version:
     name: Derive Version
-    needs: generic
-    if: needs.generic.result == 'success'
+    needs: base
+    if: needs.base.result == 'success'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-maven-version.outputs.version }}
