@@ -3,34 +3,35 @@ name: On Release - Generic
 
 "on":
   workflow_call:
+    inputs:
+      release-name:
+        type: string
+        required: false
+      docker-build:
+        type: boolean
+        required: false
+        default: false
+      docker-image-name:
+        type: string
+        required: false
     outputs:
       next-version:
         description: The next version after this release
-        value: ${{ jobs.release.outputs.next-version }}
+        value: ${{ jobs.base.outputs.next-version }}
     secrets:
       github-token:
         required: true
 
 jobs:
-  lint:
-    uses: ./.github/workflows/lint.yaml
+  base:
+    uses: ./.github/workflows/on_release_base.yaml
     secrets: inherit
 
-  release:
-    needs: lint
-    if: needs.lint.result == 'success'
-    runs-on: ubuntu-latest
-    outputs:
-      next-version: ${{ steps.release.outputs.name }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Release
-        id: release
-        uses: release-drafter/release-drafter@v5
-        with:
-          config-name: release-drafter.yaml
-          publish: false
-          disable-autolabeler: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.github-token }}
+  publish-docker:
+    needs: base
+    if: needs.base.result == 'success' && inputs.docker-build && inputs.docker-image-name != '' && inputs.release-name != ''
+    uses: ./.github/workflows/publish_docker.yaml
+    secrets: inherit
+    with:
+      image-version: ${{ inputs.docker-image-name }}
+      image-name: ${{ inputs.release-name }}
