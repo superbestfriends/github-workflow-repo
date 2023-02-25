@@ -18,7 +18,7 @@ jobs:
   draft-release:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.release.outputs.name }};
+      version: ${{ steps.release.outputs.name }}
     steps:
       - uses: actions/checkout@v3
         with:
