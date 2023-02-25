@@ -9,7 +9,7 @@ name: Push Main - Base
         value: ${{ jobs.draft-release.outputs.version }}
       release-candidate-version:
         description: The version of this release candidate
-        value: ${{ jobs.draft-release.outputs.version }}-RC${{ jobs.derive-release-candidate-version.outputs.version }}
+        value: ${{ jobs.derive-release-candidate-version.outputs.version }}
     secrets:
       github-token:
         required: true
@@ -37,7 +37,7 @@ jobs:
     if: needs.draft-release.result == 'success'
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.derive-release-candidate-version.outputs.stdout }}
+      version: ${{ steps.derive-release-candidate-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,7 +46,9 @@ jobs:
       # takes the number of commits on main since the last tag
       - name: Derive Release Candidate Version
         id: derive-release-candidate-version
-        run: git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count
+        run: |
+          rc_version=git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count
+          echo version="${{ needs.draft-release.outputs.version }}-RC${rc_version}" >> "$GITHUB_OUTPUT"
 
   lint:
     needs: draft-release
