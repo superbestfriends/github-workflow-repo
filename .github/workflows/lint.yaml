@@ -19,6 +19,7 @@ jobs:
         id: lint
         uses: github/super-linter/slim@v4
         env:
+          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.github-token }}
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_TERRAFORM_TERRASCAN: false
