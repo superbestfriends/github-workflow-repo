@@ -47,7 +47,7 @@ jobs:
       - name: Derive Release Candidate Version
         id: derive-release-candidate-version
         run: |
-          rc_version=git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count
+          rc_version=$(git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count)
           echo version="${{ needs.draft-release.outputs.version }}-RC${rc_version}" >> "$GITHUB_OUTPUT"
 
   lint:
