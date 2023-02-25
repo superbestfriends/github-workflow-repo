@@ -10,6 +10,10 @@ name: Pull Request - Java
       docker-build:
         type: boolean
         default: true
+    outputs:
+      image-version:
+        description: The version of the resulting docker image
+        value: ${{ jobs.derive-version.outputs.version }}
     secrets:
       github-token:
         required: true

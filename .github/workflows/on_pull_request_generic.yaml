@@ -43,6 +43,7 @@ jobs:
         run: |
           version="$(git tag -l | tail -n 1)"
           version="${version:-0.0.1}"
+          version="$version-$(date +'%Y-%m-%dT%H%M%S')"
           echo version="$version" >> "$GITHUB_OUTPUT"
 
   publish-docker:
@@ -53,3 +54,17 @@ jobs:
     with:
       image-version: ${{ needs.derive-version.outputs.version }}
       image-name: ${{ inputs.docker-image-name }}
+
+  comment-pr:
+    name: Comment PR
+    needs: [derive-version, publish-docker]
+    if: needs.publish-docker.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: comment pr
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Docker Image can be found at:
+            ghcr.io/${{ github.repository_owner }}/${{ inputs.docker-image-name }}:${{ needs.derive-version.outputs.version }}
+          reactions: eyes, rocket
