@@ -33,5 +33,5 @@ jobs:
     uses: ./.github/workflows/publish_docker.yaml
     secrets: inherit
     with:
-      image-version: ${{ inputs.docker-image-name }}
-      image-name: ${{ inputs.release-name }}
+      image-version: ${{ inputs.release-name }}
+      image-name: ${{ inputs.docker-image-name }}
