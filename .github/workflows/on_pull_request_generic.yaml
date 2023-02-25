@@ -40,7 +40,10 @@ jobs:
       # TODO: use versions.txt or similar to get the latest actual version on main
       - name: Get Version
         id: get-version
-        run: echo version="$(git tag -l | tail -n 1)-$(date +'%Y-%m-%dT%H%M%S')" >> "$GITHUB_OUTPUT"
+        run: |
+          version="$(git tag -l | tail -n 1)"
+          version="${version:-0.0.1}"
+          echo version="$version" >> "$GITHUB_OUTPUT"
 
   publish-docker:
     needs: derive-version
