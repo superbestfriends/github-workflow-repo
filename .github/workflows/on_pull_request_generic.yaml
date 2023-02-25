@@ -43,7 +43,7 @@ jobs:
         run: |
           version="$(git tag -l | tail -n 1)"
           version="${version:-0.0.1}"
-          version="SNAPSHOT-$version-$(date +'%Y-%m-%dT%H%M%S')"
+          version="$version-SNAPSHOT-$(date +'%Y-%m-%dT%H%M%S')"
           echo version="$version" >> "$GITHUB_OUTPUT"
 
   publish-docker:
