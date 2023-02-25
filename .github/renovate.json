@@ -17,5 +17,36 @@
   },
   "kubernetes": {
     "fileMatch": ["k8s/.+\\.yaml$"]
+  },
+  "hostRules": [
+    {
+      "matchHost": "https://api.github.com/repos/superbestfriends/",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAiFHnpfaJ5dD5y5RKA2K/E3Q98agbda5Ylqewq9oGbVqmLFYvXxeJhJ3s4MtJs9lAdf5E3U8UJgdiulfu2RTChHwFnUZW22DJqCmPl+7k04Igi2Zj9UND9J+sW8xVh2epzfQ86FJhIS6osxHuNXNw4+3NGSyLeVEMGFk9Txh8ekvukZ0dwVS6V2w1XQyZlu2W6q3WPu4mOSs8GAd/BY6Ca1tup2Wvsy1mAx3k5Xdr1Y9qSolbtSVa3X7/v1416S61si6OKhLC2Im2zJIuNsN5gWnxj7RkGdD5OhYPejpg4qINYW/LMaBqWpuf68sG39BmPYh9XVfdvTilerg+5+6w83o01CsLx0YxhV1bSDt+VSGVJNH1frWZlWrgPGm8u9wGiqle5Pn+J1CVBYJsiKVtgU7/pfa6/rjIgN53CkZkoOx4mAPlbLYJPIp1eX0wG6LYuyZV4OAYiKlJ+ZiKeg3Rp1qHgdgVBijXECge7OektPKXFozY226lWoxlZDBR3iwAyMLBA/MkqPGdjs4teOA8ipNVNpRPMmZXbenrhi22A7jYPMLPsRHCOLgYIGjKzBgqX2tZZL3LV6UTriW2VNo+96quWSV1FrYnmHxmy2ZVzppNvGDw9bq9lZpQ+/yiWiV1fBNMK8Lh1z9DTW45BFGgHlHoS42HrBGC7vAyB7WyMlrSfwHcuD3S7nc6N6s7UIs1wIIJZgzb8cJsmhepaCjSnb97Pjq0+lpeGLx6oqml9G64G+7ElRfUbYYfLoo9JBMJbQR7wITxmBXWwA/ml6A0LNi75yUXY96MD0vAaXA7y+rOM8BXRQC7L1ZcXQr1LLb6MrqxUtX4ighLxaIbiUNjimE"
+      }
+    },
+    {
+      "matchHost": "https://npm.pkg.github.com/",
+      "hostType": "npm",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAiFHnpfaJ5dD5y5RKA2K/E3Q98agbda5Ylqewq9oGbVqmLFYvXxeJhJ3s4MtJs9lAdf5E3U8UJgdiulfu2RTChHwFnUZW22DJqCmPl+7k04Igi2Zj9UND9J+sW8xVh2epzfQ86FJhIS6osxHuNXNw4+3NGSyLeVEMGFk9Txh8ekvukZ0dwVS6V2w1XQyZlu2W6q3WPu4mOSs8GAd/BY6Ca1tup2Wvsy1mAx3k5Xdr1Y9qSolbtSVa3X7/v1416S61si6OKhLC2Im2zJIuNsN5gWnxj7RkGdD5OhYPejpg4qINYW/LMaBqWpuf68sG39BmPYh9XVfdvTilerg+5+6w83o01CsLx0YxhV1bSDt+VSGVJNH1frWZlWrgPGm8u9wGiqle5Pn+J1CVBYJsiKVtgU7/pfa6/rjIgN53CkZkoOx4mAPlbLYJPIp1eX0wG6LYuyZV4OAYiKlJ+ZiKeg3Rp1qHgdgVBijXECge7OektPKXFozY226lWoxlZDBR3iwAyMLBA/MkqPGdjs4teOA8ipNVNpRPMmZXbenrhi22A7jYPMLPsRHCOLgYIGjKzBgqX2tZZL3LV6UTriW2VNo+96quWSV1FrYnmHxmy2ZVzppNvGDw9bq9lZpQ+/yiWiV1fBNMK8Lh1z9DTW45BFGgHlHoS42HrBGC7vAyB7WyMlrSfwHcuD3S7nc6N6s7UIs1wIIJZgzb8cJsmhepaCjSnb97Pjq0+lpeGLx6oqml9G64G+7ElRfUbYYfLoo9JBMJbQR7wITxmBXWwA/ml6A0LNi75yUXY96MD0vAaXA7y+rOM8BXRQC7L1ZcXQr1LLb6MrqxUtX4ighLxaIbiUNjimE"
+      }
+    },
+    {
+      "matchHost": "https://ghcr.io/superbestfriends/",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAiFHnpfaJ5dD5y5RKA2K/E3Q98agbda5Ylqewq9oGbVqmLFYvXxeJhJ3s4MtJs9lAdf5E3U8UJgdiulfu2RTChHwFnUZW22DJqCmPl+7k04Igi2Zj9UND9J+sW8xVh2epzfQ86FJhIS6osxHuNXNw4+3NGSyLeVEMGFk9Txh8ekvukZ0dwVS6V2w1XQyZlu2W6q3WPu4mOSs8GAd/BY6Ca1tup2Wvsy1mAx3k5Xdr1Y9qSolbtSVa3X7/v1416S61si6OKhLC2Im2zJIuNsN5gWnxj7RkGdD5OhYPejpg4qINYW/LMaBqWpuf68sG39BmPYh9XVfdvTilerg+5+6w83o01CsLx0YxhV1bSDt+VSGVJNH1frWZlWrgPGm8u9wGiqle5Pn+J1CVBYJsiKVtgU7/pfa6/rjIgN53CkZkoOx4mAPlbLYJPIp1eX0wG6LYuyZV4OAYiKlJ+ZiKeg3Rp1qHgdgVBijXECge7OektPKXFozY226lWoxlZDBR3iwAyMLBA/MkqPGdjs4teOA8ipNVNpRPMmZXbenrhi22A7jYPMLPsRHCOLgYIGjKzBgqX2tZZL3LV6UTriW2VNo+96quWSV1FrYnmHxmy2ZVzppNvGDw9bq9lZpQ+/yiWiV1fBNMK8Lh1z9DTW45BFGgHlHoS42HrBGC7vAyB7WyMlrSfwHcuD3S7nc6N6s7UIs1wIIJZgzb8cJsmhepaCjSnb97Pjq0+lpeGLx6oqml9G64G+7ElRfUbYYfLoo9JBMJbQR7wITxmBXWwA/ml6A0LNi75yUXY96MD0vAaXA7y+rOM8BXRQC7L1ZcXQr1LLb6MrqxUtX4ighLxaIbiUNjimE"
+      }
+    },
+    {
+      "matchHost": "https://maven.pkg.github.com/superbestfriends/",
+      "hostType": "maven",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAiFHnpfaJ5dD5y5RKA2K/E3Q98agbda5Ylqewq9oGbVqmLFYvXxeJhJ3s4MtJs9lAdf5E3U8UJgdiulfu2RTChHwFnUZW22DJqCmPl+7k04Igi2Zj9UND9J+sW8xVh2epzfQ86FJhIS6osxHuNXNw4+3NGSyLeVEMGFk9Txh8ekvukZ0dwVS6V2w1XQyZlu2W6q3WPu4mOSs8GAd/BY6Ca1tup2Wvsy1mAx3k5Xdr1Y9qSolbtSVa3X7/v1416S61si6OKhLC2Im2zJIuNsN5gWnxj7RkGdD5OhYPejpg4qINYW/LMaBqWpuf68sG39BmPYh9XVfdvTilerg+5+6w83o01CsLx0YxhV1bSDt+VSGVJNH1frWZlWrgPGm8u9wGiqle5Pn+J1CVBYJsiKVtgU7/pfa6/rjIgN53CkZkoOx4mAPlbLYJPIp1eX0wG6LYuyZV4OAYiKlJ+ZiKeg3Rp1qHgdgVBijXECge7OektPKXFozY226lWoxlZDBR3iwAyMLBA/MkqPGdjs4teOA8ipNVNpRPMmZXbenrhi22A7jYPMLPsRHCOLgYIGjKzBgqX2tZZL3LV6UTriW2VNo+96quWSV1FrYnmHxmy2ZVzppNvGDw9bq9lZpQ+/yiWiV1fBNMK8Lh1z9DTW45BFGgHlHoS42HrBGC7vAyB7WyMlrSfwHcuD3S7nc6N6s7UIs1wIIJZgzb8cJsmhepaCjSnb97Pjq0+lpeGLx6oqml9G64G+7ElRfUbYYfLoo9JBMJbQR7wITxmBXWwA/ml6A0LNi75yUXY96MD0vAaXA7y+rOM8BXRQC7L1ZcXQr1LLb6MrqxUtX4ighLxaIbiUNjimE"
+      }
+    }
+  ],
+  "customEnvVariables": {
+    "GITHUB_COM_TOKEN": "github.com/some-org,github.com/some-other-org,gitlab.com/some-org"
   }
 }
