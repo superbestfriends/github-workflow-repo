@@ -51,4 +51,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           context: .
           push: true
-          tags: ${{ inputs.image-name }}:${{ inputs.image-version }}
+          tags: ${{ github.repository_owner }}/${{ inputs.image-name }}:${{ inputs.image-version }}
