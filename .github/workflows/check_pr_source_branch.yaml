@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Check Pull Request Source Branch
         id: check-pr-source-branch
-        uses: actions/github-script@v2
+        uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.github-token }}
           script: |
