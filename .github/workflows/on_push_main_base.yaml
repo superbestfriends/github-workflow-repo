@@ -20,7 +20,7 @@ jobs:
     outputs:
       version: ${{ steps.release.outputs.name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -39,7 +39,7 @@ jobs:
     outputs:
       version: ${{ steps.derive-release-candidate-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
