@@ -43,7 +43,7 @@ repos:
         args: ["--config", ".github/linters/.prettierrc.yaml"]
 
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v8.26.0"
+    rev: "v8.56.0"
     hooks:
       - id: eslint
         additional_dependencies:
