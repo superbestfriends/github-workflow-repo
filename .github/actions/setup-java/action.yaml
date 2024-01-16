@@ -19,7 +19,7 @@ runs:
         java-version: 17
         cache: "maven"
 
-    - uses: actions/cache@v3.2.6
+    - uses: actions/cache@v3.3.3
       with:
         path: target
         key: ${{ github.run_id }}
