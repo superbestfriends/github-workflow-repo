@@ -24,7 +24,7 @@ repos:
       - id: remove-tabs
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.31.1
+    rev: v0.39.0
     hooks:
       - id: markdownlint-fix
         args: ["-c", ".github/linters/.markdownlint.yaml", "*.md"]
